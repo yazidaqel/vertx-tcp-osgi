@@ -9,7 +9,16 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@Component(immediate = true, scope = ServiceScope.SINGLETON)
+import static org.apache.felix.service.command.CommandProcessor.COMMAND_FUNCTION;
+import static org.apache.felix.service.command.CommandProcessor.COMMAND_SCOPE;
+
+@Component(immediate = true,
+        scope = ServiceScope.SINGLETON,
+        property = {
+                COMMAND_SCOPE + "=tcpManager",
+                COMMAND_FUNCTION + "=create"
+        },
+        service = TcpChannelManager.class)
 public class TcpChannelManager implements ITcpChannelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TcpChannelManager.class);
@@ -34,14 +43,14 @@ public class TcpChannelManager implements ITcpChannelManager {
     }
 
     @Activate
-    public void activate(){
+    public void activate() {
         LOGGER.info("Service Activated");
     }
 
     @Deactivate
-    public void deactivate(){
+    public void deactivate() {
         LOGGER.info("Service is deactivated");
-        for(String deploymentId : deployedChannels){
+        for (String deploymentId : deployedChannels) {
             vertx.undeploy(deploymentId);
         }
     }
