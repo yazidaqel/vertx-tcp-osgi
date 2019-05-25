@@ -17,8 +17,7 @@ import static org.apache.felix.service.command.CommandProcessor.COMMAND_SCOPE;
         property = {
                 COMMAND_SCOPE + "=tcpManager",
                 COMMAND_FUNCTION + "=create"
-        },
-        service = TcpChannelManager.class)
+        })
 public class TcpChannelManager implements ITcpChannelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TcpChannelManager.class);
